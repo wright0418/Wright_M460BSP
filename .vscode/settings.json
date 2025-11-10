@@ -1,0 +1,6 @@
+{
+    "debug.hideSlowPreLaunchWarning": true,
+    "clangd.arguments": [
+        "--compile-commands-dir=c:\\Users\\cfwu3\\Desktop\\Nuvoton_BSP\\Wright_M460BSP\\Project\\M460_MyProject\\out\\M460_MyProject\\ARMCLANG\\debug"
+    ]
+}

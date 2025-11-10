@@ -1,0 +1,31 @@
+# M460_MyProject CMSIS Solution Configuration
+# 此文件定義了 CMSIS 工具鏈的解決方案配置,支援 AC6 (MDK) 和 GCC 編譯器
+
+solution:
+  created-by: uv2csolution@1.5.0            # 由 uv2csolution 工具生成
+  created-for: CMSIS-Toolbox@2.4.0          # 針對 CMSIS-Toolbox 2.4.0 版本
+  
+  # 編譯器選擇配置
+  select-compiler:
+    - compiler: AC6@>=5.19.0                # ARM Compiler 6 (MDK),版本 >= 5.19.0
+    - compiler: GCC@>=10.3.1                # GNU ARM GCC,版本 >= 10.3.1
+  
+  # 構建類型定義
+  build-types:
+    - type: debug                           # 除錯版本
+      optimize: debug                       # 除錯優化等級
+    - type: release                         # 發布版本
+      optimize: balanced                    # 平衡優化等級
+  
+  # 目標類型定義
+  target-types:
+    - type: ARMCLANG                        # ARM Compiler (MDK) 目標
+      compiler: AC6                         # 使用 AC6 編譯器
+      device: Nuvoton::M467HJHAE            # Nuvoton M467HJHAE 晶片
+    - type: GNUC                            # GNU C 目標
+      compiler: GCC                         # 使用 GCC 編譯器
+      device: Nuvoton::M467HJHAE            # Nuvoton M467HJHAE 晶片
+  
+  # 專案引用
+  projects:
+    - project: M460_MyProject.cproject.yml  # 指向專案配置文件
