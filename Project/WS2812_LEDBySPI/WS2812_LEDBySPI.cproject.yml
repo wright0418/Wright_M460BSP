@@ -1,0 +1,105 @@
+# WS2812_LEDBySPI CMSIS 專案配置
+# WS2812 LED 驅動專案 - 使用 SPI 模擬時序協定控制彩色 LED
+# 此文件定義了專案的編譯配置、源文件和依賴項
+
+project:
+  # 依賴的軟體包
+  packs:
+    - pack: Nuvoton::NuMicroM4_DFP          # Nuvoton M4 系列設備家族包
+  
+  # 編譯器特定的雜項設定
+  misc:
+    # ARM Compiler 6 (MDK) 特定設定
+    - for-compiler: AC6
+      C: 
+        - -std=c99                          # 使用 C99 標準
+        - -fno-rtti                         # 禁用 RTTI (執行時類型資訊)
+        - -funsigned-char                   # char 類型預設為無符號
+        - -fshort-enums                     # 使用最小整數類型存儲枚舉
+        - -fshort-wchar                     # 使用短 wchar_t
+        - -ffunction-sections               # 每個函數放入獨立的節區
+        - -fdata-sections                   # 每個資料放入獨立的節區
+        - -D__MICROLIB                      # 定義 MicroLib 巨集
+        - -o0                               # 優化等級 0 (無優化,便於除錯)
+        - -gdwarf-4                         # 使用 DWARF-4 除錯格式
+        - -fno-inline                       # 禁止函數內聯
+      ASM: 
+        - -D__MICROLIB                      # 組合語言定義 MicroLib
+      Link: 
+        - --library_type=microlib           # 使用 MicroLib 函式庫
+        - --map                             # 生成記憶體映射檔
+        - --load_addr_map_info              # 顯示載入地址映射資訊
+        - --symbols                         # 顯示符號資訊
+        - --info sizes                      # 顯示大小資訊
+        - --info totals                     # 顯示總計資訊
+        - --entry Reset_Handler             # 入口點為 Reset_Handler
+        - --summary_stderr                  # 摘要輸出到 stderr
+        - --info summarysizes               # 顯示摘要大小
+        - --diag_suppress=6314              # 抑制診斷訊息 6314
+    
+    # GCC 編譯器特定設定
+    - for-compiler: GCC
+      C: 
+        - -std=gnu11                        # 使用 GNU11 標準
+        - --specs=nano.specs                # 使用 newlib-nano (減少程式碼大小)
+        - -Wno-return-type                  # 不警告缺少返回類型
+        - -Wno-unused-but-set-variable      # 不警告設定但未使用的變數
+        - -fdata-sections                   # 每個資料放入獨立的節區
+        - -ffunction-sections               # 每個函數放入獨立的節區
+        - -fno-builtin                      # 禁用內建函數
+        - -fshort-enums                     # 使用最小整數類型存儲枚舉
+        - -funsigned-char                   # char 類型預設為無符號
+        - -mthumb                           # 使用 Thumb 指令集
+        - -Wno-main                         # 不警告 main 函數問題
+        - -gdwarf-4                         # 使用 DWARF-4 除錯格式
+      Link:
+        - -Xlinker                          # 傳遞參數給連結器
+        - --gc-sections                     # 移除未使用的節區
+        - --specs=nano.specs                # 使用 newlib-nano
+        - -Wl,-Map,"$OutDir()$/$Project$.map"  # 生成 map 檔案
+
+  # 輸出設定
+  setups:
+    - output:
+        type: ["elf", "bin"]                # 輸出 ELF 和 BIN 格式
+  
+  # 連結器腳本配置
+  linker:
+    - for-compiler: GCC
+      script: ../../Library/Device/Nuvoton/m460/Source/GCC/gcc_arm.ld  # GCC 連結腳本路徑
+  
+  # 包含路徑 (相對於專案根目錄 Project/WS2812_LEDBySPI)
+  add-path:
+    - ../../Library/Device/Nuvoton/m460/Include   # M460 設備標頭檔
+    - ../../Library/StdDriver/inc                 # 標準驅動標頭檔
+    - ../../Library/CMSIS/Include                 # CMSIS 標頭檔
+  
+  # 檔案組織
+  groups:
+    # CMSIS 核心檔案組
+    - group: CMSIS
+      files:
+        # ARM Compiler 6 啟動檔案
+        - file: ../../Library/Device/Nuvoton/m460/Source/ARM/startup_m460.S
+          for-compiler: AC6
+        # GCC 啟動檔案
+        - file: ../../Library/Device/Nuvoton/m460/Source/GCC/startup_m460.S
+          for-compiler: GCC
+        # 系統初始化檔案
+        - file: ../../Library/Device/Nuvoton/m460/Source/system_m460.c
+    
+    # 標準驅動函式庫組
+    - group: Library
+      files:
+        - file: ../../Library/StdDriver/src/retarget.c    # UART printf 重導向
+        - file: ../../Library/StdDriver/src/uart.c        # UART 驅動
+        - file: ../../Library/StdDriver/src/sys.c         # 系統控制驅動
+        - file: ../../Library/StdDriver/src/clk.c         # 時鐘控制驅動
+        - file: ../../Library/StdDriver/src/spi.c         # SPI 驅動 (用於 WS2812)
+        - file: ../../Library/StdDriver/src/gpio.c        # GPIO 驅動
+        - file: ../../Library/StdDriver/src/pdma.c        # PDMA 驅動 (可選,用於 SPI DMA 傳輸)
+    
+    # 使用者程式碼組
+    - group: User
+      files:
+        - file: main.c                      # 主程式檔案

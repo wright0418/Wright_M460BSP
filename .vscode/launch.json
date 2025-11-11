@@ -23,8 +23,8 @@
             "name": "CMSIS_DAP@pyOCD (attach)",
             "type": "gdbtarget",
             "request": "attach",
-            "cwd": "${workspaceFolder}/Project\\M460_MyProject",
-            "program": "out/M460_MyProject/ARMCLANG/debug/M460_MyProject.axf",
+            "cwd": "${workspaceFolder}/Project\\MyRTOSPrj",
+            "program": "out/RTOSDemo/ARMCLANG/debug/RTOSDemo.axf",
             "gdb": "arm-none-eabi-gdb",
             "initCommands": [
                 ""

@@ -6,7 +6,7 @@
             "type": "shell",
             "command": "pyocd",
             "options": {
-                "cwd": "${workspaceFolder}/Project\\M460_MyProject"
+                "cwd": "${workspaceFolder}/Project\\MyRTOSPrj"
             },
             "windows": {
                 "options": {
@@ -54,7 +54,7 @@
             "type": "shell",
             "command": "pyocd",
             "options": {
-                "cwd": "${workspaceFolder}/Project\\M460_MyProject"
+                "cwd": "${workspaceFolder}/Project\\MyRTOSPrj"
             },
             "windows": {
                 "options": {
@@ -101,7 +101,7 @@
             "type": "shell",
             "command": "pyocd",
             "options": {
-                "cwd": "${workspaceFolder}/Project\\M460_MyProject"
+                "cwd": "${workspaceFolder}/Project\\MyRTOSPrj"
             },
             "windows": {
                 "options": {
@@ -162,7 +162,7 @@
             "type": "shell",
             "command": "pyocd",
             "options": {
-                "cwd": "${workspaceFolder}/Project\\M460_MyProject"
+                "cwd": "${workspaceFolder}/Project\\MyRTOSPrj"
             },
             "windows": {
                 "options": {
